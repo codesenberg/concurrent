@@ -23,6 +23,17 @@ func TestHistogramIncrement(t *testing.T) {
 	}
 }
 
+func TestHistogramCount(t *testing.T) {
+	h := testHistogram()
+	keys := testValues()
+	for _, k := range keys {
+		h.Increment(k)
+	}
+	if a, e := h.Count(), uint64(len(keys)); e != a {
+		t.Errorf("expected %v entries, but found %v", e, a)
+	}
+}
+
 func TestHistogramVisitAll(t *testing.T) {
 	h := testHistogram()
 	keys := testValues()

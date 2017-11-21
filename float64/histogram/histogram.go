@@ -76,6 +76,22 @@ func (h *Histogram) Get(key float64) uint64 {
 	return result
 }
 
+// Count calculates the number of elements in histogram in a more
+// efficient way that can be implemented with VisitAll
+func (h *Histogram) Count() uint64 {
+	for _, sh := range h.shards {
+		sh.RLock()
+	}
+	count := uint64(0)
+	for _, sh := range h.shards {
+		count += uint64(len(sh.counters))
+	}
+	for _, sh := range h.shards {
+		sh.RUnlock()
+	}
+	return count
+}
+
 // VisitAll function applies function to each key-value pair in histogram.
 // If function returns false iteration stops. Locks the entire histogram.
 func (h *Histogram) VisitAll(fn func(float64, uint64) bool) {
