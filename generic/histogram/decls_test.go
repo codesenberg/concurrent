@@ -21,6 +21,6 @@ var benchValueSets = []struct {
 	name string
 	data []generic.T
 }{
-// TODO(you)[optional]: fill those in with some value sets to use
-// in benchmark.
+	// TODO(you)[optional]: fill those in with some value sets to use
+	// in benchmark.
 }
